@@ -16,4 +16,3 @@ env | grep USER || grep lucas
 > *
 >> *
 < *
-<< *

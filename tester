@@ -15,12 +15,10 @@ else
 		"extras"
 		"syntax"
 		"wildcards"
+		"operators"
+		"parenthesis"
 	)
 fi
-
-# if [[ $1 == "wildcards"  || $1 == "bonus" ]]; then
-# 	MINISHELL_PATH="../minishell_bonus"
-# fi
 
 BOLD="\e[1m"
 YELLOW="\033[0;33m"
@@ -48,11 +46,21 @@ echo "🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥�
 echo "                                                                                              ";
 printf $END
 
-PROMPT=$(echo -e "\nexit\n" | $MINISHELL_PATH | head -n 1 | sed -r "s:\x1B\[[0-9;]*[mK]::g")
-# PROMPT="araggohnxd@"
-printf $PURPLE
-echo "|$PROMPT|"
-printf $END
+# PROMPT=$(echo -e "\nexit\n" | $MINISHELL_PATH | head -n 1 | sed -r "s:\x1B\[[0-9;]*[mK]::g")
+USERNAME=$USER
+if [[ -z $USERNAME ]]; then
+	USERNAME=$LOGNAME
+	if [[ -z $USERNAME ]]; then
+		USERNAME="(unknown)"
+	fi
+fi
+
+HOSTNAME=$(cat /etc/hostname)
+if [[ -z $USERNAME ]]; then
+	HOSTNAME="(unknown)"
+fi
+
+PROMPT="$USERNAME@$HOSTNAME"
 
 for testfile in ${test_lists[*]}; do
 
@@ -64,17 +72,22 @@ for testfile in ${test_lists[*]}; do
 
 		rm -rf ./outfiles/*
 		rm -rf ./mini_outfiles/*
-		MINI_OUTPUT=$(echo -e "$teste" | $MINISHELL_PATH 2> /dev/null | sed -r "s:\x1B\[[0-9;]*[mK]::g" | grep -vF "$PROMPT" | grep -v ^exit$ )
-		MINI_OUTFILES=$(cp ./outfiles/* ./mini_outfiles &>/dev/null)
-		MINI_EXIT_CODE=$(echo -e "$MINISHELL_PATH\n$teste\necho \$?\nexit\n" | bash 2> /dev/null | sed -r "s:\x1B\[[0-9;]*[mK]::g" | grep -vF "$PROMPT" | grep -v ^exit$ | tail -n 1)
-		MINI_ERROR_MSG=$(trap "" PIPE && echo "$teste" | $MINISHELL_PATH 2>&1 > /dev/null | grep -o '[^:]*$' )
+		MINI_OUTPUT=$(echo -e "$teste" | $MINISHELL_PATH 2> /dev/null > /tmp/out)
+		MINI_EXIT_CODE=$(echo $?)
+		MINI_OUTPUT=$(cat /tmp/out | sed -r "s:\x1B\[[0-9;]*[mK]::g" | grep -vF "$PROMPT" | grep -v ^exit$)
+		MINI_OUTFILES=$(cp ./outfiles/* ./mini_outfiles &> /dev/null)
+		# MINI_EXIT_CODE=$(echo -e "$MINISHELL_PATH\n$teste\necho \$?\nexit\n" | bash 2> /dev/null | sed -r "s:\x1B\[[0-9;]*[mK]::g" | grep -vF "$PROMPT" | grep -v ^exit$ | tail -n 1)
+		MINI_ERROR_MSG=$(trap "" PIPE && echo "$teste" | $MINISHELL_PATH 2>&1 > /dev/null | grep -o '[^:]*$')
 
 		rm -rf ./outfiles/*
 		rm -rf ./bash_outfiles/*
 		BASH_OUTPUT=$(echo -e "$teste" | bash 2> /dev/null)
 		BASH_EXIT_CODE=$(echo $?)
 		BASH_OUTFILES=$(cp ./outfiles/* ./bash_outfiles &>/dev/null)
-		BASH_ERROR_MSG=$(trap "" PIPE && echo "$teste" | bash 2>&1 > /dev/null | grep -o '[^:]*$' | head -n1)
+		BASH_ERROR_MSG=$(trap "" PIPE && echo "$teste" | bash 2>&1 > /dev/null | grep -o '[^:]*$')
+		if [[ ! -z $(echo "$BASH_ERROR_MSG" | grep syntax) ]]; then
+			BASH_ERROR_MSG=$(echo "$BASH_ERROR_MSG" | grep syntax)
+		fi
 
 		OUTFILES_DIFF=$(diff --brief ./mini_outfiles ./bash_outfiles)
 

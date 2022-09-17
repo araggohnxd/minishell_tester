@@ -1,0 +1,37 @@
+||
+&&
+> &&
+> ||
+false || false
+true || true
+true || false
+false || true
+false && false
+true && true
+true && false
+false && true
+a | b | c && d | e | f
+a | b | c || d | e | f
+env | grep USER || grep PATH
+true && false && true && false | ls
+echo foo || echo bar | cat && echo baz
+echo foo && echo bar | cat || echo baz
+true || false && echo b || echo c && echo d
+false || false || true || false || false | ls
+echo foo && echo bar || echo baz | tr a X
+false && echo foo | ls | cat -e || echo bar
+false && echo foo | ls | cat -e && echo bar
+false || echo foo && echo bar | cat /etc/hostname
+cat < /etc/hostname && cat < /etc/timezone
+cat < /etc/hostname > ./outfiles/trunc && cat < /etc/timezone >> ./outfiles/append && cat < /etc/fstab >> ./outfiles/append
+cat <missing >>./outfiles/out1 >>./outfiles/out2 && cat < /etc/hostname
+ls <missing >>./test_files/invalid_permission >>./outfiles/out3 && ls
+ls <missing >>./test_files/invalid_permission >>./outfiles/out4 || ls
+cat <missing | cat </etc/hostname && echo <123 <456 hi | echo 42 && ls >./outfiles/out5
+cat <missing | cat </etc/hostname && echo <123 <456 hi | echo 42 && ls >./outfiles/out7
+ls <missing >>./test_files/invalid_permission >>./outfiles/out9 && ls >>./test_files/invalid_permission >>./outfiles/out9 <missing
+ls <missing >>./test_files/invalid_permission >>./outfiles/out10 || ls >>./test_files/invalid_permission >>./outfiles/out10 <missing
+ls >>./test_files/invalid_permission >>./outfiles/out11 <missing && ls <missing >>./test_files/invalid_permission >>./outfiles/out11
+ls >>./test_files/invalid_permission >>./outfiles/out12 <missing || ls <missing >>./test_files/invalid_permission >>./outfiles/out12
+echo hi | echo bye >./test_files/invalid_permission >./outfiles/out13 && cat </etc/hostname >./test_files/invalid_permission
+echo hi | echo bye >./test_files/invalid_permission >./outfiles/out13 || cat </etc/hostname >./test_files/invalid_permission
