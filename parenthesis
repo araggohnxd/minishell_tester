@@ -18,3 +18,4 @@ echo this (>)
 ((echo this && echo that) | tr h X && echo thes) && tr t Z
 echo oi | (cat -e | tr o i)
 (cat ../readline.supp | grep Readline)
+(xyz && echo a || echo b) || xyz && echo c || echo d

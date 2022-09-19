@@ -12,6 +12,8 @@ true && false
 false && true
 a | b | c && d | e | f
 a | b | c || d | e | f
+false && echo a || echo b
+nonexistent && echo a || echo b
 env | grep USER || grep PATH
 true && false && true && false | ls
 echo foo || echo bar | cat && echo baz
