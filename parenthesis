@@ -17,5 +17,12 @@ echo this (>)
 ((echo this && echo that) | tr h X && echo thes) | tr t Z
 ((echo this && echo that) | tr h X && echo thes) && tr t Z
 echo oi | (cat -e | tr o i)
-(cat ../readline.supp | grep Readline)
+(cat /etc/fstab | grep fstab)
 (xyz && echo a || echo b) || xyz && echo c || echo d
+((false || echo a | echo b || false) && echo c) | echo d
+echo a && echo b | (echo c || (echo d | echo e)) | echo f
+(cat | wc) < /etc/hostname
+(ls | cat) > ./outfiles/redir_outside_subsh
+(cat | wc) < /etc/hostname | (ls | cat) > ./outfiles/redir_subsh
+(</etc/hostname cat)
+(>./outfiles/redir_inside_subsh ls)

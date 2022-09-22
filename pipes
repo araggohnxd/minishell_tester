@@ -1,4 +1,6 @@
 a | b | c | d | e | f
+a | b | c | d | ls | cat
+a | pwd | c | wc | e | f
 env | sort | grep -v SHLVL | grep -v ^_
 export | sort | grep -v SHLVL | grep -v "declare -x _" | grep -v "PS.="
 cat ./test_files/infile_big | grep oi

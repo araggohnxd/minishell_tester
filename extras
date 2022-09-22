@@ -13,3 +13,7 @@ minishell.h
 $
 $?
 README.md
+/
+/etc
+/home
+./

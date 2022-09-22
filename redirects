@@ -1,6 +1,7 @@
 < /etc/hostname
 grep -x | < /etc/hostname
 grep -x | < /etc/hostname | cat
+nonexistent < missing
 grep hi <./test_files/infile
 grep hi "<infile" <         ./test_files/infile
 echo hi < ./test_files/infile bye bye
