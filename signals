@@ -1,0 +1,12 @@
+./signal_testing/sigalrm
+./signal_testing/sighup
+./signal_testing/sigint
+./signal_testing/sigpipe
+./signal_testing/sigsegv
+./signal_testing/sigtrap
+./signal_testing/sigabrt
+./signal_testing/sigfpe
+./signal_testing/sigill
+./signal_testing/sigkill
+./signal_testing/sigquit
+./signal_testing/sigterm
