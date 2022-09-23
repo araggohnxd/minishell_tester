@@ -12,6 +12,7 @@ else
 		"builtins"
 		"pipes"
 		"redirects"
+		"signals"
 		"extras"
 		"syntax"
 		"wildcards"
@@ -87,6 +88,8 @@ for testfile in ${test_lists[*]}; do
 		BASH_ERROR_MSG=$(trap "" PIPE && echo "$teste" | bash 2>&1 > /dev/null | grep -o '[^:]*$')
 		if [[ ! -z $(echo "$BASH_ERROR_MSG" | grep syntax) ]]; then
 			BASH_ERROR_MSG=$(echo "$BASH_ERROR_MSG" | grep syntax)
+		elif [[ ! -z $(echo "$BASH_ERROR_MSG" | grep signal_testing) ]]; then
+			BASH_ERROR_MSG=$(echo "$BASH_ERROR_MSG" | cut -d '.' -f 1 | tr -d '0123456789' | sed 's/^[ ]*//; s/[ ]*$//')
 		fi
 
 		OUTFILES_DIFF=$(diff --brief ./mini_outfiles ./bash_outfiles)
